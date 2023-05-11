@@ -1,0 +1,32 @@
+<button>upload image</button>
+<br>
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script>
+  /* global nn */
+  new nn.FileUploader({
+    click: 'button',
+    ready: async (file) => {
+      // add the normal image to the document's body
+      const image = await nn.loadImage(file.data)
+      document.body.appendChild(image)
+      // modify the pixels with some algorithm
+      const obj = await nn.modifyPixels(file.data, (pixels) => {
+        // this algorithm desaturates the image
+        for (let i = 0; i < pixels.length; i += 4) {
+          // for every pixel, do the following...
+          const r = pixels[i]
+          const g = pixels[i + 1]
+          const b = pixels[i + 2]
+          
+          const v = (r + g + b) / 3
+          
+          pixels[i] = v // new red value
+          pixels[i + 1] = v // new green value
+          pixels[i + 2] = v // new blue value
+        }
+      })
+      // add the modified image to the document's body
+      document.body.appendChild(obj.image)
+    }
+  })
+</script>
