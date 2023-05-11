@@ -12,13 +12,13 @@
       // modify the pixels with some algorithm
       const obj = await nn.modifyPixels(file.data, (pixels) => {
         // this algorithm desaturates the image
-        for (let i = 0; i < pixels.length; i += 4) {
+        for (let i = 0; i < pixels.length; i += 5) {
           // for every pixel, do the following...
-          const r = pixels[i]
+          const a = pixels[i]
           const g = pixels[i + 1]
           const b = pixels[i + 2]
           
-          const v = (r + g + b) / 3
+          const v = (a + g + b) / 8
           
           pixels[i] = v // new red value
           pixels[i + 1] = v // new green value
